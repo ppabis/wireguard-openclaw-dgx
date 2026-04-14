@@ -26,3 +26,16 @@ module "vpc" {
   private_subnet_tags = { type = "private" }
   public_subnet_tags  = { type = "public" }
 }
+
+resource "aws_route" "wireguard_tunnel_prefix" {
+  for_each = toset(
+    concat(
+      module.vpc.private_route_table_ids,
+      module.vpc.public_route_table_ids
+    )
+  )
+
+  route_table_id         = each.value
+  destination_cidr_block = "10.155.222.0/24"
+  network_interface_id   = aws_instance.wireguard.primary_network_interface_id
+}
