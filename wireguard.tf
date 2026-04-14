@@ -23,7 +23,15 @@ resource "aws_security_group" "wireguard" {
 }
 
 locals {
-  user_data = templatefile("user-data.yaml", {peers = []})
+  user_data = templatefile("user-data.yaml", {
+    peers = [
+      # ⚠️ Configure this section with your own data
+      {
+        address    = "10.155.222.3", # the IP you selected for the client
+        public_key = "bxmMoVvXlVVRg7uaTnxI6Vf7wxeI0XWj5d6zREqDkzk=" # the public key of the client
+      }
+    ]
+  })
 }
 
 resource "aws_instance" "wireguard" {
