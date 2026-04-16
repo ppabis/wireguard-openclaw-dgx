@@ -19,7 +19,7 @@ resource "aws_security_group" "wireguard" {
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
-  } 
+  }
 }
 
 locals {
@@ -27,7 +27,7 @@ locals {
     peers = [
       # ⚠️ Configure this section with your own data
       {
-        address    = "10.155.222.3", # the IP you selected for the client
+        address    = "10.155.222.3",                                # the IP you selected for the client
         public_key = "bxmMoVvXlVVRg7uaTnxI6Vf7wxeI0XWj5d6zREqDkzk=" # the public key of the client
       }
     ]
