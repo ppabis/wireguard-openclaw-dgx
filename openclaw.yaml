@@ -1,0 +1,45 @@
+#cloud-config
+cloud_final_modules:
+  - [scripts-user, always]
+
+cloud_config_modules:
+  - [write_files, always]
+  - [apt_configure, always]
+  - [package_update_upgrade_install, always]
+
+hostname: openclaw-agent
+create_hostname_file: true
+
+apt:
+  sources:
+    nodejs:
+      keyid: 2F59B5F99B1BE0B4
+      keyserver: keyserver.ubuntu.com
+      source: deb [signed-by=$KEY_FILE] https://deb.nodesource.com/node_24.x nodistro main
+
+package_update: true
+package_upgrade: true
+packages:
+  - nodejs
+  - unattended-upgrades
+
+users:
+  - default
+  - name: openclaw
+    uid: 2200
+
+ssh_authorized_keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPgVNNOeuUqMgobgeIIkndXXYekOmC/e5bqty3f0UXDa my-ssh-key
+
+write_files:
+  - path: /etc/apt/apt.conf.d/20auto-upgrades
+    permissions: "0644"
+    owner: root:root
+    content: |
+      APT::Periodic::Update-Package-Lists "1";
+      APT::Periodic::Unattended-Upgrade "1";
+
+runcmd:
+  - systemctl enable --now unattended-upgrades || true
+  - loginctl enable-linger openclaw || true
+
