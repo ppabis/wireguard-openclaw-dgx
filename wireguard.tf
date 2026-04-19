@@ -13,6 +13,20 @@ resource "aws_security_group" "wireguard" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
+  ingress {
+    from_port       = 8989
+    to_port         = 8989
+    protocol        = "tcp"
+    security_groups = [aws_security_group.agent.id]
+  }
+
+  ingress {
+    from_port       = 11434
+    to_port         = 11434
+    protocol        = "tcp"
+    security_groups = [aws_security_group.agent.id]
+  }
+
   egress {
     from_port        = 0
     to_port          = 0
