@@ -28,6 +28,7 @@ users:
   - name: openclaw
     uid: 2200
 
+# Change this to your own SSH key for access to OpenClaw
 ssh_authorized_keys:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPgVNNOeuUqMgobgeIIkndXXYekOmC/e5bqty3f0UXDa my-ssh-key
 
